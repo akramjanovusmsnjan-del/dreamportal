@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090713">
+  <title>DREAM PORTAL — Tushlar kundaligi</title>
+  
+  <style>
+    /* --- CSS QISMI --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg: #090713;
+      --panel: #151020;
+      --gold: #ffd21f;
+      --light-gold: #fff0a0;
+      --purple: #a78bfa;
+      --text: #f7f1ff;
+      --muted: #a69bb7;
+      --border: rgba(255,210,31,.2);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 75% 5%, rgba(104,58,157,.2), transparent 35%),
+        radial-gradient(ellipse at 5% 60%, rgba(75,42,120,.12), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .3;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px,#fff,transparent),
+        radial-gradient(1px 1px at 100px 150px,#ffd21f,transparent),
+        radial-gradient(2px 2px at 220px 80px,#fff,transparent),
+        radial-gradient(1px 1px at 300px 250px,#c5a8ff,transparent);
+      background-size: 350px 300px;
+      animation: stars 45s linear infinite;
+    }
+
+    @keyframes stars {
+      to { background-position: 350px 300px; }
+    }
+
+    .header {
+      min-height: 76px;
+      padding: 15px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      background: rgba(9,7,19,.94);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(15px);
+    }
+
+    .logo, .footer-logo {
+      text-decoration: none;
+      color: white;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .logo span, .footer-logo span {
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      transition: .3s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    .date {
+      border: 1px solid var(--border);
+      padding: 9px 14px;
+      border-radius: 30px;
+      color: var(--light-gold);
+      font-size: 12px;
+    }
+
+    main {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
+
+    .hero {
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .hero-text {
+      max-width: 600px;
+      padding: 65px 0;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1.15;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-text > p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+      margin: 25px 0;
+      max-width: 470px;
+    }
+
+    .main-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 11px;
+      padding: 14px 22px;
+      background: linear-gradient(110deg,#ffe36a,#e8a900);
+      color: #201500;
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .3s;
+      box-shadow: 0 0 25px rgba(255,210,31,.13);
+    }
+
+    .main-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(255,210,31,.35);
+    }
+
+    .moon-area {
+      width: 390px;
+      height: 390px;
+      flex-shrink: 0;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .moon {
+      font-size: 190px;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(255,210,31,.5), 0 0 90px rgba(167,139,250,.3);
+      animation: moonMove 5s ease-in-out infinite;
+    }
+
+    @keyframes moonMove {
+      50% { transform: translateY(-13px) rotate(-12deg); }
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(255,210,31,.25);
+      border-radius: 50%;
+    }
+
+    .orbit-one {
+      width: 300px;
+      height: 300px;
+      transform: rotate(-25deg) scaleY(.5);
+    }
+
+    .orbit-two {
+      width: 360px;
+      height: 360px;
+      transform: rotate(35deg) scaleY(.5);
+      border-color: rgba(167,139,250,.35);
+    }
+
+    .star {
+      position: absolute;
+      color: var(--light-gold);
+      animation: twinkle 2s infinite alternate;
+    }
+
+    .star-one { top: 45px; left: 65px; font-size: 26px; }
+    .star-two { top: 90px; right: 30px; font-size: 30px; }
+    .star-three { bottom: 65px; left: 45px; font-size: 20px; }
+    .star-four { bottom: 30px; right: 75px; font-size: 28px; }
+    .star-five { top: 180px; right: 5px; font-size: 17px; }
+
+    @keyframes twinkle {
+      to { opacity: .25; transform: scale(.7); }
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 17px;
+      margin: 0 0 100px;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(135deg,#1c152b,#100c19);
+    }
+
+    .stat-icon {
+      color: var(--gold);
+      font-size: 30px;
+    }
+
+    .stat h2 {
+      font-size: 25px;
+      color: var(--light-gold);
+    }
+
+    .stat p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .section {
+      margin-bottom: 100px;
+      scroll-margin-top: 100px;
+    }
+
+    .section-title { margin-bottom: 28px; }
+
+    .section-title h2 {
+      font-family: Georgia, serif;
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .section-title > p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .diary-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 20px;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 26px;
+      background: linear-gradient(145deg,#1b1429,#100c1a);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.2);
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 22px;
+    }
+
+    .icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 23px;
+      background: rgba(255,210,31,.09);
+      border: 1px solid var(--border);
+    }
+
+    .card h3 {
+      font-family: Georgia, serif;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 6px;
+    }
+
+    label {
+      display: block;
+      color: #e0d6ed;
+      font-size: 12px;
+      margin: 17px 0 8px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--text);
+      background: #0d0a16;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      outline: none;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      transition: .25s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255,210,31,.08);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #71677f;
+    }
+
+    select option {
+      background: #171124;
+      color: white;
+    }
+
+    textarea {
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    .character-count, .idea-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 9px;
+    }
+
+    .submit-button {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .saved-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .count {
+      color: var(--light-gold);
+      background: rgba(255,210,31,.07);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 25px;
+      font-size: 11px;
+    }
+
+    .search { margin-bottom: 17px; }
+
+    .dream-list {
+      display: grid;
+      gap: 13px;
+      max-height: 550px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .dream-card {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      transition: .25s;
+    }
+
+    .dream-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .dream-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .dream-card h4 {
+      color: var(--light-gold);
+      font-size: 15px;
+    }
+
+    .dream-meta {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 7px;
+    }
+
+    .mood {
+      color: #cbb7ff;
+      background: rgba(167,139,250,.1);
+      border-radius: 20px;
+      padding: 6px 10px;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .dream-description {
+      color: #d2c9df;
+      font-size: 12px;
+      line-height: 1.8;
+      margin-top: 13px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .dream-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 13px;
+    }
+
+    .small-button {
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .small-button:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .delete-button:hover {
+      color: #ff8585;
+      border-color: #ff8585;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px 15px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+    }
+
+    .empty div {
+      font-size: 45px;
+      color: var(--gold);
+    }
+
+    .empty h3 { margin-top: 12px; }
+    .empty p { max-width: 260px; margin: 8px auto; }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .big-icon {
+      width: 55px;
+      height: 55px;
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .question {
+      display: flex;
+      gap: 13px;
+      padding: 13px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.025);
+      color: #d7cce4;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .question b { color: var(--gold); }
+
+    .outline-button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      border-radius: 10px;
+      padding: 12px 17px;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .outline-button:hover {
+      background: rgba(255,210,31,.08);
+    }
+
+    .idea-footer { margin-top: 16px; }
+
+    .idea-footer .main-button { padding: 11px 17px; }
+
+    .note {
+      text-align: center;
+      color: #83788f;
+      font-size: 11px;
+      margin-top: 22px;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 48px 20px 28px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      background: rgba(10,7,17,.8);
+    }
+
+    .footer-logo { margin-bottom: 14px; }
+
+    footer > p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    .author {
+      color: #9d91aa;
+      font-size: 10px;
+      letter-spacing: 2px;
+      line-height: 2.1;
+      margin-bottom: 24px;
+    }
+
+    .author strong {
+      display: block;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    footer small {
+      color: #655b71;
+      font-size: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      max-width: calc(100% - 40px);
+      background: #211a2e;
+      border: 1px solid var(--gold);
+      color: var(--light-gold);
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: .3s;
+      z-index: 20;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width: 850px) {
+      .header { padding: 15px 4%; }
+      nav { gap: 14px; }
+      .moon-area { width: 280px; height: 280px; }
+      .moon { font-size: 140px; }
+      .orbit-one { width: 240px; height: 240px; }
+      .orbit-two { width: 280px; height: 280px; }
+      .diary-grid { grid-template-columns: 1fr; }
+    }
+
+    @media(max-width: 650px) {
+      .header { flex-wrap: wrap; justify-content: space-between; }
+      nav { order: 3; width: 100%; justify-content: center; padding: 7px 0; }
+      nav a { font-size: 11px; }
+      .date { font-size: 10px; }
+      main { width: 90%; }
+      .hero { flex-direction: column; align-items: flex-start; min-height: auto; }
+      .hero-text { padding: 60px 0 20px; }
+      .moon-area { align-self: center; }
+      .stats { grid-template-columns: 1fr; margin-bottom: 70px; }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .section-title h2 { font-size: 30px; }
+      .card { padding: 20px; }
+      .dream-top { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="#home" class="logo">☾ DREAM <span>PORTAL</span></a>
+
+    <nav>
+      <a href="#home">Bosh sahifa</a>
+      <a href="#diary">Kundalik</a>
+      <a href="#analysis">Ijodiy tahlil</a>
+    </nav>
+
+    <div class="date" id="todayDate">--.--.----</div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <div class="eyebrow">✦ O‘Z OLAMINGNI KASHF ET</div>
+        <h1>Tushlaring —<br><span>sirli olaming</span><br>sahifalari.</h1>
+        <p>
+          Tushlaringni yozib bor, xotiralaringni saqla,
+          ijodiy fikrlaringni rivojlantir va o‘z hikoyangni yarat.
+        </p>
+        <a href="#diary" class="main-button">✦ Kundalikni boshlash</a>
+      </div>
+
+      <div class="moon-area">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="moon">☾</div>
+        <span class="star star-one">✦</span>
+        <span class="star star-two">✧</span>
+        <span class="star star-three">✦</span>
+        <span class="star star-four">✧</span>
+        <span class="star star-five">✦</span>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <div class="stat-icon">✧</div>
+        <div><h2 id="totalDreams">0</h2><p>Jami tushlar</p></div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">☾</div>
+        <div><h2 id="monthDreams">0</h2><p>Shu oyda</p></div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">♡</div>
+        <div><h2 id="favoriteMood">—</h2><p>Sevimli kayfiyat</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="diary">
+      <div class="section-title">
+        <div class="eyebrow">SHAXSIY XOTIRALAR</div>
+        <h2>Tushlar <span>kundaligi</span></h2>
+        <p>Har bir tush — saqlashga arziydigan xotira.</p>
+      </div>
+
+      <div class="diary-grid">
+        <div class="card">
+          <div class="card-heading">
+            <div class="icon">✎</div>
+            <div>
+              <h3>Yangi tush qo‘shish</h3>
+              <p>Tushingni shu yerga yozib qoldir.</p>
+            </div>
+          </div>
+
+          <form id="dreamForm">
+            <label for="dreamTitle">Tush nomi</label>
+            <input id="dreamTitle" type="text" maxlength="70"
+              placeholder="Tushingga nom ber..." required>
+
+            <label for="dreamDate">Sana</label>
+            <input id="dreamDate" type="date" required>
+
+            <label for="dreamMood">Kayfiyat</label>
+            <select id="dreamMood" required>
+              <option value="">Kayfiyatni tanlang</option>
+              <option>Quvonchli</option>
+              <option>Hayratlangan</option>
+              <option>Hayajonli</option>
+              <option>Xotirjam</option>
+              <option>Sirli</option>
+              <option>G‘amgin</option>
+              <option>Aralash</option>
+            </select>
+
+            <label for="dreamText">Tushing haqida</label>
+            <textarea id="dreamText" rows="6" maxlength="5000"
+              placeholder="Tushingda nimalar bo‘ldi? Barchasini yoz..."
+              required></textarea>
+
+            <div class="character-count">
+              <span>Fikrlaringni erkin yoz.</span>
+              <span id="charCount">0 / 5000</span>
+            </div>
+
+            <button class="main-button submit-button" type="submit">
+              ✦ Tushni saqlash
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="saved-heading">
+            <div>
+              <h3>Saqlangan tushlar</h3>
+              <p>Shaxsiy xotiralaring.</p>
+            </div>
+            <span class="count" id="dreamCount">0 ta</span>
+          </div>
+
+          <input type="search" id="searchDreams" class="search"
+            placeholder="⌕ Tushlaringdan qidir..." autocomplete="off">
+
+          <div id="dreamList" class="dream-list">
+            <div class="empty">
+              <div>☾</div>
+              <h3>Hali tushlar yo‘q</h3>
+              <p>Birinchi tushingni yozib, kundalikni boshlagin.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="analysis">
+      <div class="section-title">
+        <div class="eyebrow">TASAVVUR VA TAFAKKUR</div>
+        <h2>Ijodiy <span>tahlil</span></h2>
+        <p>O‘z fikrlaringni kashf et va yangi g‘oyalar yarat.</p>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="card">
+          <div class="icon big-icon">✧</div>
+          <h3>Tushing haqida o‘yla</h3>
+          <p>Quyidagi savollar ijodiy fikrlashingga yordam beradi.</p>
+
+          <div id="questionList" class="question-list">
+            <div class="question"><b>01</b><span>Tushingdagi eng esda qolarli voqea qaysi?</span></div>
+            <div class="question"><b>02</b><span>Qaysi rang yoki manzara diqqatingni tortdi?</span></div>
+            <div class="question"><b>03</b><span>Agar tush hikoya bo‘lsa, unga qanday nom qo‘yarding?</span></div>
+            <div class="question"><b>04</b><span>Ushbu tushdan qanday ijodiy g‘oya olish mumkin?</span></div>
+          </div>
+
+          <button class="outline-button" id="newQuestions" type="button">
+            ↻ Yangi savollar
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="icon big-icon">✎</div>
+          <h3>Ijodiy fikrlar maydoni</h3>
+          <p>Tushingdan ilhomlanib, yangi g‘oya yoki hikoya yoz.</p>
+
+          <textarea id="creativeIdea" rows="8" maxlength="2000"
+            placeholder="Mening ijodiy g‘oyam..."></textarea>
+
+          <div class="idea-footer">
+            <span id="ideaStatus">G‘oya hali saqlanmagan</span>
+            <button class="main-button" id="saveIdea" type="button">
+              Saqlash ✦
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">
+        Ushbu bo‘lim ilmiy tashxis bermaydi. U ijodiy fikrlash
+        va shaxsiy kuzatuv uchun yaratilgan.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">☾ DREAM <span>PORTAL</span></div>
+    <p>Har bir tush — tasavvuring sari ochilgan eshik.</p>
+
+    <div class="author">
+      LOYIHA MUALLIFI
+      <strong>AKRAMJONOVA JADRA MARATOVNA</strong>
+    </div>
+
+    <small>© <span id="year"></span> DREAM PORTAL. Barcha huquqlar himoyalangan.</small>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* --- JAVASCRIPT QISMI --- */
+    "use strict";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const STORAGE_KEY = "dreamPortalEntries";
+      const IDEA_KEY = "dreamPortalCreativeIdea";
+
+      const $ = id => document.getElementById(id);
+
+      const dreams = loadDreams();
+
+      function loadDreams() {
+        try {
+          const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          return Array.isArray(data) ? data : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveDreams() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(dreams));
+          return true;
+        } catch {
+          showToast("Ma'lumotni saqlashda xatolik!");
+          return false;
+        }
+      }
+
+      function showToast(message) {
+        const toast = $("toast");
+        if (!toast) return;
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast.timer);
+
+        showToast.timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2500);
+      }
+
+      function getToday() {
+        const now = new Date();
+        return [
+          now.getFullYear(),
+          String(now.getMonth() + 1).padStart(2, "0"),
+          String(now.getDate()).padStart(2, "0")
+        ].join("-");
+      }
+
+      function formatDate(date) {
+        if (!date) return "";
+        const parts = date.split("-");
+        if (parts.length !== 3) return date;
+        return `${parts[2]}.${parts[1]}.${parts[0]}`;
+      }
+
+      function initializeDate() {
+        const today = getToday();
+        if ($("todayDate")) $("todayDate").textContent = formatDate(today);
+        if ($("dreamDate")) {
+          $("dreamDate").value = today;
+          $("dreamDate").max = today;
+        }
+        if ($("year")) $("year").textContent = new Date().getFullYear();
+      }
+
+      function updateStats() {
+        if ($("totalDreams")) $("totalDreams").textContent = dreams.length;
+
+        const now = new Date();
+        const monthly = dreams.filter(dream => {
+          const date = new Date(dream.date + "T12:00:00");
+          return date.getMonth() === now.getMonth() &&
+            date.getFullYear() === now.getFullYear();
+        });
+
+        if ($("monthDreams")) $("monthDreams").textContent = monthly.length;
+
+        const moods = {};
+        dreams.forEach(dream => {
+          moods[dream.mood] = (moods[dream.mood] || 0) + 1;
+        });
+
+        const sorted = Object.entries(moods).sort((a, b) => b[1] - a[1]);
+        if ($("favoriteMood")) $("favoriteMood").textContent = sorted.length ? sorted[0][0] : "—";
+        if ($("dreamCount")) $("dreamCount").textContent = dreams.length + " ta";
+      }
+
+      if ($("dreamForm")) {
+        $("dreamForm").addEventListener("submit", event => {
+          event.preventDefault();
+
+          const title = $("dreamTitle").value.trim();
+          const date = $("dreamDate").value;
+          const mood = $("dreamMood").value;
+          const description = $("dreamText").value.trim();
+
+          if (!title || !date || !mood || !description) {
+            showToast("Barcha maydonlarni to‘ldiring!");
+            return;
+          }
+
+          if (date > getToday()) {
+            showToast("Kelajak sanasini tanlash mumkin emas.");
+            return;
+          }
+
+          const dream = {
+            id: Date.now().toString(),
+            title,
+            date,
+            mood,
+            description
+          };
+
+          dreams.unshift(dream);
+
+          if (!saveDreams()) {
+            dreams.shift();
+            return;
+          }
+
+          renderDreams();
+          updateStats();
+
+          $("dreamForm").reset();
+          $("dreamDate").value = getToday();
+          if ($("charCount")) $("charCount").textContent = "0 / 5000";
+
+          showToast("Tushing muvaffaqiyatli saqlandi! ✨");
+        });
+      }
+
+      function renderDreams(searchText = "") {
+        const container = $("dreamList");
+        if (!container) return;
+
+        const query = searchText.toLowerCase().trim();
+
+        const filtered = dreams.filter(dream => {
+          return (
+            dream.title.toLowerCase().includes(query) ||
+            dream.description.toLowerCase().includes(query) ||
+            dream.mood.toLowerCase().includes(query)
+          );
+        });
+
+        if ($("dreamCount")) $("dreamCount").textContent = filtered.length + " ta";
+        container.replaceChildren();
+
+        if (filtered.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+
+          const icon = document.createElement("div");
+          icon.textContent = "☾";
+
+          const heading = document.createElement("h3");
+          heading.textContent = query ? "Natija topilmadi" : "Hali tushlar yo‘q";
+
+          const paragraph = document.createElement("p");
+          paragraph.textContent = query
+            ? "Boshqa so‘z bilan qidirib ko‘r."
+            : "Birinchi tushingni yozib, kundalikni boshlagin.";
+
+          empty.append(icon, heading, paragraph);
+          container.append(empty);
+          return;
+        }
+
+        filtered.forEach(dream => {
+          const card = document.createElement("div");
+          card.className = "dream-card";
+
+          const top = document.createElement("div");
+          top.className = "dream-top";
+
+          const info = document.createElement("div");
+
+          const heading = document.createElement("h4");
+          heading.textContent = dream.title;
+
+          const date = document.createElement("div");
+          date.className = "dream-meta";
+          date.textContent = formatDate(dream.date);
+
+          info.append(heading, date);
+
+          const mood = document.createElement("span");
+          mood.className = "mood";
+          mood.textContent = dream.mood;
+
+          top.append(info, mood);
+
+          const description = document.createElement("p");
+          description.className = "dream-description";
+          description.textContent = dream.description;
+
+          const actions = document.createElement("div");
+          actions.className = "dream-actions";
+
+          const copyButton = document.createElement("button");
+          copyButton.type = "button";
+          copyButton.className = "small-button";
+          copyButton.textContent = "Nusxa olish";
+          copyButton.addEventListener("click", () => copyDream(dream));
+
+          const deleteButton = document.createElement("button");
+          deleteButton.type = "button";
+          deleteButton.className = "small-button delete-button";
+          deleteButton.textContent = "O‘chirish";
+          deleteButton.addEventListener("click", () => deleteDream(dream.id));
+
+          actions.append(copyButton, deleteButton);
+          card.append(top, description, actions);
+          container.append(card);
+        });
+      }
+
+      if ($("searchDreams")) {
+        $("searchDreams").addEventListener("input", event => {
+          renderDreams(event.target.value);
+        });
+      }
+
+      function deleteDream(id) {
+        const index = dreams.findIndex(dream => dream.id === id);
+
+        if (index === -1) return;
+        if (!confirm("Bu tushni o‘chirmoqchimisiz?")) return;
+
+        const removed = dreams.splice(index, 1)[0];
+
+        if (!saveDreams()) {
+          dreams.splice(index, 0, removed);
+          return;
+        }
+
+        renderDreams($("searchDreams") ? $("searchDreams").value : "");
+        updateStats();
+        showToast("Tush o‘chirildi.");
+      }
+
+      async function copyDream(dream) {
+        const text =
+          "Tush: " + dream.title + "\n" +
+          "Sana: " + formatDate(dream.date) + "\n" +
+          "Kayfiyat: " + dream.mood + "\n\n" +
+          dream.description;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast("Tush nusxalandi!");
+        } catch {
+          showToast("Nusxa olish uchun brauzer ruxsatini tekshiring.");
+        }
+      }
+
+      if ($("dreamText") && $("charCount")) {
+        $("dreamText").addEventListener("input", event => {
+          $("charCount").textContent = event.target.value.length + " / 5000";
+        });
+      }
+
+      const questionSets = [
+        [
+          "Tushingdagi eng esda qolarli voqea qaysi?",
+          "Qaysi rang yoki manzara diqqatingni tortdi?",
+          "Agar bu tush hikoya bo‘lsa, unga qanday nom qo‘yarding?",
+          "Ushbu tushdan qanday ijodiy g‘oya olish mumkin?"
+        ],
+        [
+          "Tushingdagi eng qiziqarli obraz kim yoki nima edi?",
+          "Ushbu tushni rasmga aylantirsang, nimalarni chizarding?",
+          "Tushingga qanday musiqa mos kelardi?",
+          "Hikoyaning davomini qanday tasavvur qilasan?"
+        ],
+        [
+          "Tushingni uchta so‘z bilan qanday ifodalaysan?",
+          "Ushbu tush uchun qanday sarlavha tanlaysan?",
+          "Tushing film bo‘lsa, uning janri qanday bo‘lardi?",
+          "Bu tushdan qanday yangi loyiha yaratish mumkin?"
+        ]
+      ];
+
+      let previousSet = -1;
+
+      if ($("newQuestions")) {
+        $("newQuestions").addEventListener("click", () => {
+          let randomIndex;
+
+          do {
+            randomIndex = Math.floor(Math.random() * questionSets.length);
+          } while (randomIndex === previousSet);
+
+          previousSet = randomIndex;
+
+          const list = $("questionList");
+          if (!list) return;
+
+          list.replaceChildren();
+
+          questionSets[randomIndex].forEach((question, index) => {
+            const item = document.createElement("div");
+            item.className = "question";
+
+            const number = document.createElement("b");
+            number.textContent = String(index + 1).padStart(2, "0");
+
+            const text = document.createElement("span");
+            text.textContent = question;
+
+            item.append(number, text);
+            list.append(item);
+          });
+
+          showToast("Yangi savollar tayyor! ✨");
+        });
+      }
+
+      function loadIdea() {
+        try {
+          const saved = localStorage.getItem(IDEA_KEY) || "";
+          if ($("creativeIdea")) $("creativeIdea").value = saved;
+          if ($("ideaStatus")) {
+            $("ideaStatus").textContent = saved
+              ? "Oxirgi g‘oya saqlangan ✓"
+              : "G‘oya hali saqlanmagan";
+          }
+        } catch {
+          if ($("ideaStatus")) $("ideaStatus").textContent = "Xotirani o‘qib bo‘lmadi";
+        }
+      }
+
+      if ($("saveIdea")) {
+        $("saveIdea").addEventListener("click", () => {
+          const idea = $("creativeIdea") ? $("creativeIdea").value.trim() : "";
+
+          if (!idea) {
+            showToast("Avval ijodiy g‘oyangni yoz!");
+            return;
+          }
+
+          try {
+            localStorage.setItem(IDEA_KEY, idea);
+            if ($("ideaStatus")) $("ideaStatus").textContent = "Muvaffaqiyatli saqlandi ✓";
+            showToast("Ijodiy g‘oyang saqlandi! ✦");
+          } catch {
+            showToast("G‘oyani saqlashda xatolik yuz berdi.");
+          }
+        });
+      }
+
+      if ($("creativeIdea")) {
+        $("creativeIdea").addEventListener("input", () => {
+          if ($("ideaStatus")) $("ideaStatus").textContent = "Saqlanmagan o‘zgarishlar";
+        });
+      }
+
+      initializeDate();
+      renderDreams();
+      updateStats();
+      loadIdea();
+    });
+  </script>
+</body>
+</html>
